@@ -225,10 +225,10 @@ const choose=()=>{const w=innerWidth,h=innerHeight;targetX=45+Math.random()*Math
 function frame(now){if(!active||paused)return;if(!last)last=now;const dt=Math.min(.04,(now-last)/1000);last=now;
 let dx=targetX-x,dy=targetY-y,dist=Math.hypot(dx,dy);if(dist<65){choose();dx=targetX-x;dy=targetY-y;dist=Math.hypot(dx,dy)}
 const desired=Math.atan2(dy,dx);const diff=Math.atan2(Math.sin(desired-heading),Math.cos(desired-heading));const maxTurn=1.6*dt;heading+=clamp(diff,-maxTurn,maxTurn);
-const desiredSpeed=clamp(dist*.23,28,105);speed+=(desiredSpeed-speed)*Math.min(1,dt*1.7);
-x=clamp(x+Math.cos(heading)*speed*dt,-30,innerWidth+30);y=clamp(y+Math.sin(heading)*speed*dt,-30,innerHeight+30);
+const desiredSpeed=clamp(dist*.25,36,115);speed+=(desiredSpeed-speed)*Math.min(1,dt*1.7);
+x=clamp(x+Math.cos(heading)*speed*dt,20,Math.max(20,innerWidth-20));y=clamp(y+Math.sin(heading)*speed*dt,20,Math.max(20,innerHeight-20));
 const w=car.offsetWidth||170,h=w*(sprite.naturalHeight||369)/(sprite.naturalWidth||639);const deg=heading*180/Math.PI;
-car.style.transform='translate3d('+(x-w/2)+'px,'+(y-h/2)+'px,0) rotate('+deg+'deg)';
+car.style.transform='translate3d('+(x-w/2)+'px,'+(y-h/2)+'px,0) rotate('+(deg+180)+'deg)';
 trail.style.transform='translate3d('+(x-Math.cos(heading)*(w*.45)-45)+'px,'+(y-Math.sin(heading)*(w*.45)-2)+'px,0) rotate('+deg+'deg)';
 raf=requestAnimationFrame(frame)}
 function start(){if(active||!sprite.naturalWidth)return;active=true;layer.classList.add('sprite-ready');choose();last=0;raf=requestAnimationFrame(frame)}
