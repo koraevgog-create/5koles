@@ -134,7 +134,15 @@ body>header,body>main,body>footer,body>.wrap,body>.hero,body>.section,body>secti
 @keyframes exhaustPulse{from{opacity:.12}to{opacity:.5}}
 @media(max-width:650px){#ambient-car{width:145px!important;opacity:.9!important}}
 @media(prefers-reduced-motion:reduce){#ambient-car-layer{display:none!important}}
-</style></head><body><div id="ambient-car-layer" aria-hidden="true"><div id="ambient-trail"></div><div id="ambient-car"><svg viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Оранжевый гоночный спорткар в стиле GT3">
+</style><style>
+/* True overhead GT car: activated after top.webp is uploaded */
+#ambient-car-layer.sprite-ready #ambient-car{width:clamp(125px,12vw,190px)!important;opacity:.92!important;filter:drop-shadow(0 8px 7px #0009) drop-shadow(0 0 7px #ff6a0055)}
+#ambient-car-layer.sprite-ready #ambient-car svg{display:none!important}
+#ambient-car .gt-top-sprite{display:none;width:100%;height:auto;object-fit:contain;user-select:none;-webkit-user-drag:none}
+#ambient-car-layer.sprite-ready .gt-top-sprite{display:block}
+#ambient-car-layer.sprite-ready #ambient-trail{width:90px!important;height:4px!important;background:linear-gradient(90deg,transparent,#ff7300b0)!important}
+@media(max-width:650px){#ambient-car-layer.sprite-ready #ambient-car{width:120px!important}}
+</style></head><body><div id="ambient-car-layer" aria-hidden="true"><div id="ambient-trail"></div><div id="ambient-car"><img class="gt-top-sprite" src="./top.webp" alt="" decoding="async"><svg viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Оранжевый гоночный спорткар в стиле GT3">
 <defs><linearGradient id="raceBody" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#ffc26b"/><stop offset=".24" stop-color="#ff8517"/><stop offset=".65" stop-color="#f15a00"/><stop offset="1" stop-color="#9d2800"/></linearGradient><linearGradient id="raceGlass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6c8ca6"/><stop offset=".35" stop-color="#1d364b"/><stop offset="1" stop-color="#080e17"/></linearGradient><filter id="raceGlow"><feGaussianBlur stdDeviation="5"/></filter></defs>
 <ellipse cx="212" cy="153" rx="188" ry="13" fill="#ff6a00" opacity=".22" filter="url(#raceGlow)"/>
 <path d="M20 128 44 120 83 109 121 72Q137 53 177 52H256Q291 52 314 78L349 106 391 111Q409 116 410 133L402 145H17L11 138Z" fill="url(#raceBody)" stroke="#ffb14d" stroke-width="3"/>
@@ -181,7 +189,7 @@ $('resetScenario').addEventListener('click',()=>{Object.entries(defaults).forEac
 if('IntersectionObserver'in window){const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:.09});document.querySelectorAll('.section .card,.section .step,.section h2').forEach(el=>{el.classList.add('reveal');obs.observe(el)})}
 update();
 </script><script>
-/* Grounded GT animation: cross-screen passes with realistic orientation.
+/* Grounded GT animation: legacy fallback until top.webp loads.\n   Cross-screen passes with realistic orientation.
    Random heights and easing, but NEVER rotate the car vertically. */
 (()=>{const car=document.getElementById('ambient-car'),trail=document.getElementById('ambient-trail');if(!car||!trail||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 let raf=0,last=0,elapsed=0,fromX=0,toX=0,fromY=0,toY=0,duration=0,dir=1,phase=0,first=true;
@@ -193,7 +201,7 @@ fromX=dir===1?-cw-30:w+cw+30;toX=dir===1?w+cw+30:-cw-30;
 fromY=rand(h*.24,h*.8);toY=Math.max(h*.16,Math.min(h*.86,fromY+rand(-h*.11,h*.11)));
 duration=rand(7000,11500);elapsed=0;phase=0;
 }
-function frame(now){if(!last)last=now;const dt=Math.min(55,now-last);last=now;elapsed+=dt;
+function frame(now){if(document.getElementById("ambient-car-layer")?.classList.contains("sprite-ready"))return;if(!last)last=now;const dt=Math.min(55,now-last);last=now;elapsed+=dt;
 if(elapsed>duration+randPause){route()}
 const t=Math.min(1,elapsed/duration),u=t*t*(3-2*t);
 const x=fromX+(toX-fromX)*u;
@@ -208,4 +216,24 @@ const randPause=350;
 document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0}else if(!raf){last=0;raf=requestAnimationFrame(frame)}});
 window.addEventListener('resize',route,{passive:true});
 route();raf=requestAnimationFrame(frame)})();
+</script><script>
+/* Overhead GT sprite: natural continuous steering. Runs only when top.webp loads. */
+(()=>{const layer=document.getElementById('ambient-car-layer'),car=document.getElementById('ambient-car'),sprite=car?.querySelector('.gt-top-sprite'),trail=document.getElementById('ambient-trail');if(!layer||!car||!sprite||!trail||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+let raf=0,last=0,x=innerWidth*.2,y=innerHeight*.6,heading=0,speed=0,targetX=0,targetY=0,active=false,paused=false;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const choose=()=>{const w=innerWidth,h=innerHeight;targetX=45+Math.random()*Math.max(1,w-90);targetY=45+Math.random()*Math.max(1,h-90)};
+function frame(now){if(!active||paused)return;if(!last)last=now;const dt=Math.min(.04,(now-last)/1000);last=now;
+let dx=targetX-x,dy=targetY-y,dist=Math.hypot(dx,dy);if(dist<65){choose();dx=targetX-x;dy=targetY-y;dist=Math.hypot(dx,dy)}
+const desired=Math.atan2(dy,dx);const diff=Math.atan2(Math.sin(desired-heading),Math.cos(desired-heading));const maxTurn=1.6*dt;heading+=clamp(diff,-maxTurn,maxTurn);
+const desiredSpeed=clamp(dist*.23,28,105);speed+=(desiredSpeed-speed)*Math.min(1,dt*1.7);
+x=clamp(x+Math.cos(heading)*speed*dt,-30,innerWidth+30);y=clamp(y+Math.sin(heading)*speed*dt,-30,innerHeight+30);
+const w=car.offsetWidth||170,h=w*(sprite.naturalHeight||369)/(sprite.naturalWidth||639);const deg=heading*180/Math.PI;
+car.style.transform='translate3d('+(x-w/2)+'px,'+(y-h/2)+'px,0) rotate('+deg+'deg)';
+trail.style.transform='translate3d('+(x-Math.cos(heading)*(w*.45)-45)+'px,'+(y-Math.sin(heading)*(w*.45)-2)+'px,0) rotate('+deg+'deg)';
+raf=requestAnimationFrame(frame)}
+function start(){if(active||!sprite.naturalWidth)return;active=true;layer.classList.add('sprite-ready');choose();last=0;raf=requestAnimationFrame(frame)}
+sprite.addEventListener('load',start,{once:true});if(sprite.complete&&sprite.naturalWidth)start();
+document.addEventListener('visibilitychange',()=>{paused=document.hidden;if(paused)cancelAnimationFrame(raf);else if(active){last=0;raf=requestAnimationFrame(frame)}});
+window.addEventListener('resize',choose,{passive:true});
+})();
 </script></body></html>
