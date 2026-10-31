@@ -123,6 +123,17 @@ body>header,body>main,body>footer,body>.wrap,body>.hero,body>.section,body>secti
 @media(max-width:650px){#ambient-car{width:130px;opacity:.82}#ambient-trail{width:50px}}
 @media(prefers-reduced-motion:reduce){#ambient-car-layer{display:none!important}}
 @media print{#ambient-car-layer{display:none!important}}
+</style><style>
+/* GT motion v2: grounded horizontal driving, no tumbling or vertical flight */
+#ambient-car-layer{z-index:9999!important;pointer-events:none!important;overflow:hidden}
+#ambient-car{width:clamp(155px,17vw,250px)!important;opacity:.94!important;filter:drop-shadow(0 10px 7px #000b) drop-shadow(0 0 7px #ff6a0050);transform-origin:center center!important;transition:none!important}
+#ambient-car svg{overflow:visible}
+#ambient-car .race-wheel{animation:raceSpin .28s linear infinite}
+#ambient-trail{height:3px!important;width:105px!important;filter:blur(4px);opacity:.5}
+#ambient-car-layer .race-exhaust{animation:exhaustPulse .6s ease-in-out infinite alternate}
+@keyframes exhaustPulse{from{opacity:.12}to{opacity:.5}}
+@media(max-width:650px){#ambient-car{width:145px!important;opacity:.9!important}}
+@media(prefers-reduced-motion:reduce){#ambient-car-layer{display:none!important}}
 </style></head><body><div id="ambient-car-layer" aria-hidden="true"><div id="ambient-trail"></div><div id="ambient-car"><svg viewBox="0 0 420 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Оранжевый гоночный спорткар в стиле GT3">
 <defs><linearGradient id="raceBody" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="#ffc26b"/><stop offset=".24" stop-color="#ff8517"/><stop offset=".65" stop-color="#f15a00"/><stop offset="1" stop-color="#9d2800"/></linearGradient><linearGradient id="raceGlass" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6c8ca6"/><stop offset=".35" stop-color="#1d364b"/><stop offset="1" stop-color="#080e17"/></linearGradient><filter id="raceGlow"><feGaussianBlur stdDeviation="5"/></filter></defs>
 <ellipse cx="212" cy="153" rx="188" ry="13" fill="#ff6a00" opacity=".22" filter="url(#raceGlow)"/>
@@ -170,16 +181,31 @@ $('resetScenario').addEventListener('click',()=>{Object.entries(defaults).forEac
 if('IntersectionObserver'in window){const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:.09});document.querySelectorAll('.section .card,.section .step,.section h2').forEach(el=>{el.classList.add('reveal');obs.observe(el)})}
 update();
 </script><script>
-/* Racing GT: cinematic roaming path with smooth turns, gentle banking and glow trail. */
+/* Grounded GT animation: cross-screen passes with realistic orientation.
+   Random heights and easing, but NEVER rotate the car vertically. */
 (()=>{const car=document.getElementById('ambient-car'),trail=document.getElementById('ambient-trail');if(!car||!trail||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-let w=innerWidth,h=innerHeight,x=w*.2,y=h*.4,tx=w*.75,ty=h*.5,last=0,raf=0,angle=0,bank=0,wait=0;
-const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-function destination(){w=innerWidth;h=innerHeight;const mx=Math.min(140,w*.18),my=Math.min(130,h*.2);tx=mx+Math.random()*Math.max(1,w-2*mx);ty=my+Math.random()*Math.max(1,h-2*my)}
-function tick(t){if(!last)last=t;const dt=Math.min(.05,(t-last)/1000);last=t;let dx=tx-x,dy=ty-y,d=Math.hypot(dx,dy);if(d<65){destination();dx=tx-x;dy=ty-y;d=Math.hypot(dx,dy)}const target=Math.atan2(dy,dx)*180/Math.PI;const delta=((target-angle+540)%360)-180;const turn=clamp(delta,-55*dt,55*dt);angle+=turn;bank+=(clamp(delta*.12,-8,8)-bank)*Math.min(1,dt*2.5);const speed=clamp(d*.18,43,88);const rad=angle*Math.PI/180;x=clamp(x+Math.cos(rad)*speed*dt,0,w);y=clamp(y+Math.sin(rad)*speed*dt,0,h);
-const cw=car.getBoundingClientRect().width||180;const ch=cw*180/420;
-car.style.transform='translate3d('+(x-cw/2)+'px,'+(y-ch/2)+'px,0) rotate('+(angle+bank)+'deg)';
-trail.style.transform='translate3d('+(x-Math.cos(rad)*(cw*.55)-45)+'px,'+(y-Math.sin(rad)*(cw*.55)-2)+'px,0) rotate('+angle+'deg)';
-raf=requestAnimationFrame(tick)}
-document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0}else if(!raf){last=0;raf=requestAnimationFrame(tick)}});
-window.addEventListener('resize',()=>{w=innerWidth;h=innerHeight;x=clamp(x,0,w);y=clamp(y,0,h);destination()},{passive:true});destination();raf=requestAnimationFrame(tick)})();
+let raf=0,last=0,elapsed=0,fromX=0,toX=0,fromY=0,toY=0,duration=0,dir=1,phase=0,first=true;
+const rand=(a,b)=>a+Math.random()*(b-a);
+const ease=t=>t<.12?(.6*t/.12):t>.88?(.6+.4*(t-.88)/.12):(.6+(t-.12)/.76*.0); 
+function route(){const w=innerWidth,h=innerHeight,cw=car.getBoundingClientRect().width||200;
+dir=first?1:(Math.random()<.5?-1:1);first=false;
+fromX=dir===1?-cw-30:w+cw+30;toX=dir===1?w+cw+30:-cw-30;
+fromY=rand(h*.24,h*.8);toY=Math.max(h*.16,Math.min(h*.86,fromY+rand(-h*.11,h*.11)));
+duration=rand(7000,11500);elapsed=0;phase=0;
+}
+function frame(now){if(!last)last=now;const dt=Math.min(55,now-last);last=now;elapsed+=dt;
+if(elapsed>duration+randPause){route()}
+const t=Math.min(1,elapsed/duration),u=t*t*(3-2*t);
+const x=fromX+(toX-fromX)*u;
+const y=fromY+(toY-fromY)*u+Math.sin(t*Math.PI*4)*2;
+const cw=car.getBoundingClientRect().width||200;
+const tilt=Math.max(-3,Math.min(3,(toY-fromY)/Math.max(1,Math.abs(toX-fromX))*80));
+car.style.transform='translate3d('+(x-cw/2)+'px,'+(y-cw*.215)+'px,0) scaleX('+dir+') rotate('+(tilt*dir)+'deg)';
+trail.style.transform='translate3d('+(x-dir*(cw*.65)-55)+'px,'+(y+cw*.08)+'px,0) scaleX('+dir+')';
+car.style.opacity=t<.03?String(Math.max(0,t/.03)*.94):t>.97?String(Math.max(0,(1-t)/.03)*.94):'.94';
+raf=requestAnimationFrame(frame)}
+const randPause=350;
+document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);raf=0}else if(!raf){last=0;raf=requestAnimationFrame(frame)}});
+window.addEventListener('resize',route,{passive:true});
+route();raf=requestAnimationFrame(frame)})();
 </script></body></html>
