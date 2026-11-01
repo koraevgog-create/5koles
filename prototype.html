@@ -125,6 +125,17 @@ body .nav .btn{font-size:16px;padding:15px 30px}
 .hero .wrap>div:first-child{width:min(47%,650px)}
 @media(max-width:1100px){.hero:before{background-position:61% center}.hero:after{background:linear-gradient(90deg,#070d16f5 0%,#070d16dc 38%,#070d1650 88%),linear-gradient(0deg,#0b1119,transparent 20%)}}
 @media(max-width:760px){.hero:before{background-size:auto 100%;background-position:64% center}.hero:after{background:linear-gradient(90deg,#070d16f1,#070d16c5 72%,#070d1680),linear-gradient(0deg,#0b1119,transparent 25%)}.hero .wrap>div:first-child{width:100%}}
+</style><style id="hero-contrast-and-seamless-transition">
+/* Final overrides: soften the photograph without dimming real UI */
+.hero{position:relative;isolation:isolate;overflow:visible!important;background:#0b1119!important}
+.hero:before{content:"";position:absolute;inset:0;z-index:-2;background-image:url('./5koles-clean-hero.webp');background-size:cover;background-position:center 54%;background-repeat:no-repeat;opacity:.70;filter:saturate(1.03) brightness(.88) contrast(1.01);pointer-events:none}
+.hero:after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,#0b1119e8 0%,#0b1119d2 25%,#0b111997 40%,#0b11191a 74%),linear-gradient(to bottom,#0b111924 0%,transparent 40%,#0b111910 62%,#0b1119a8 86%,#0b1119 100%)}
+.hero .wrap{position:relative;z-index:2}
+.hero h1,.hero p,.hero .eyebrow{position:relative;text-shadow:0 2px 14px #000b}
+.hero .actions,.hero .facts{position:relative;z-index:3}
+#services{position:relative;z-index:1;margin-top:-2px;background:linear-gradient(to bottom,#0b1119 0%,#0d1520 28%,#101a26 100%)!important;padding-top:clamp(65px,7vw,110px)}
+@media(max-width:1100px){.hero:before{background-position:62% center;opacity:.63}.hero:after{background:linear-gradient(90deg,#0b1119f2,#0b1119b9 48%,#0b111943),linear-gradient(to bottom,transparent 48%,#0b1119 100%)}}
+@media(max-width:760px){.hero:before{background-position:65% center;opacity:.50}.hero:after{background:linear-gradient(90deg,#0b1119e8,#0b11199c),linear-gradient(to bottom,transparent 35%,#0b1119 100%)}#services{padding-top:65px}}
 </style></head><body><div id="gt-ambient" aria-hidden="true" hidden><div id="gt-ambient-trail"></div><div id="gt-ambient-car"><img src="./top.webp" alt="" decoding="async"></div></div>
 <div class="demo">ДЕМОНСТРАЦИОННЫЙ ПРОТОТИП • Адрес, телефон, цены и запись будут подключены после согласования с владельцем</div>
 <div class="topbar"><div class="wrap"><span>Набережные Челны • Автосервис «5 Колес»</span><span>Контакты и часы работы уточняются</span></div></div>
