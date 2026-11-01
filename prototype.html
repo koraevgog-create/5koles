@@ -56,6 +56,19 @@
 body:has(.approved-home) .nav,body:has(.approved-home) .topbar{display:none}
 body:has(.approved-home) .demo{position:relative;z-index:5}
 @media(max-width:760px){.approved-home{display:none}.approved-mobile{display:block}body:has(.approved-home) .nav{display:block}body:has(.approved-home) .topbar{display:none}}
+</style><style>
+/* Seamless full-bleed integration: no square picture frame */
+body{background:#090e15}
+.approved-home{max-width:none!important;width:100%;overflow:hidden;background:#080c11!important;isolation:isolate}
+.approved-home>img{width:100%;height:auto;display:block;max-height:none;object-fit:cover;object-position:center top;mask-image:linear-gradient(to bottom,#000 0%,#000 79%,transparent 100%);-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 79%,transparent 100%)}
+.approved-home:before{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;background:linear-gradient(90deg,#090e1540 0%,transparent 9%,transparent 91%,#090e1540 100%);box-shadow:inset 0 0 110px 24px #090e1540}
+.approved-home:after{content:"";position:absolute;z-index:2;pointer-events:none;bottom:-2px;left:0;right:0;height:30%;background:linear-gradient(0deg,#090e15 0%,#090e15b0 22%,transparent 100%)}
+.approved-home .hotspot{z-index:4}
+.approved-home+.approved-mobile+.section{position:relative;margin-top:-3vw;padding-top:clamp(90px,10vw,160px);background:linear-gradient(#090e15,#0b1119 25%);z-index:1}
+.approved-home+.approved-mobile+.section:before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#ff6a0044,transparent)}
+@media(min-width:761px){.approved-home{margin:0!important}.approved-home>img{max-height:1050px;object-fit:cover}.approved-home .hotspot{transition:background .2s}.approved-home .hotspot:hover{background:#ff6a0014}}
+@media(min-width:1500px){.approved-home>img{max-height:1050px;object-fit:cover;object-position:center 30%}}
+@media(max-width:760px){.approved-home+.approved-mobile+.section{margin-top:0;padding-top:65px}}
 </style></head><body><div id="gt-ambient" aria-hidden="true" hidden><div id="gt-ambient-trail"></div><div id="gt-ambient-car"><img src="./top.webp" alt="" decoding="async"></div></div>
 <div class="demo">ДЕМОНСТРАЦИОННЫЙ ПРОТОТИП • Адрес, телефон, цены и запись будут подключены после согласования с владельцем</div>
 <div class="topbar"><div class="wrap"><span>Набережные Челны • Автосервис «5 Колес»</span><span>Контакты и часы работы уточняются</span></div></div>
