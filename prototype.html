@@ -87,11 +87,42 @@ body .topbar{display:block!important}
 #services .service{position:relative;z-index:2}
 @media(max-width:950px){.hero .wrap{grid-template-columns:1fr;min-height:620px}.hero{background-position:61% center}.hero:before{background:linear-gradient(90deg,#070c14ed,#07101ac4 65%,#07101a60)}}
 @media(max-width:600px){body .topbar{display:none!important}.hero{min-height:0;background-position:65% center}.hero .wrap{min-height:610px;padding-top:75px;padding-bottom:75px}.hero h1{font-size:clamp(40px,10vw,56px)}.hero .facts{padding:15px;gap:15px}.hero:before{background:linear-gradient(90deg,#070c14ee,#07101ab8)}}
+</style><style>
+/* Reference-matched cinematic layout, native clickable UI */
+body .demo{background:#1a100b;border-bottom:1px solid #5e2b12;color:#ff9d49;letter-spacing:.15px}
+body .topbar{background:#09131e}
+body .nav{background:#060b12f7;border-bottom:1px solid #253443}
+body .nav .wrap{max-width:1390px;min-height:82px}
+body .nav .logo{font-size:29px}
+body .nav .logo b{font-size:46px}
+body .nav .links{font-size:15px;gap:30px}
+body .nav .btn{font-size:16px;padding:15px 30px}
+.hero{min-height:710px;background:#080e16!important;position:relative;isolation:isolate;overflow:hidden}
+.hero:before{content:"";position:absolute;z-index:-2;inset:0;background-image:url('./5koles-hero.webp');background-repeat:no-repeat;background-size:cover;background-position:center bottom;filter:saturate(1.16) contrast(1.07) brightness(1.13)}
+.hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#070d16 0%,#070d16f5 18%,#070d16eb 31%,#070d16b8 43%,#070d1640 57%,transparent 73%),linear-gradient(0deg,#0b1119 0%,transparent 16%,transparent 89%,#090f17a8 100%);pointer-events:none}
+.hero .wrap{max-width:1390px;display:flex!important;align-items:center;min-height:710px;padding-top:55px;padding-bottom:70px}
+.hero .wrap>div:first-child{width:min(48%,650px);position:relative;z-index:2}
+.hero h1{font-weight:900;font-style:italic;font-size:clamp(42px,4.6vw,70px);letter-spacing:-2.5px;line-height:1.04;margin:24px 0 16px;text-shadow:0 4px 20px #0008}
+.hero h1 em{color:#ff700b}
+.hero .eyebrow{font-size:13px;letter-spacing:1.2px}
+.hero p{font-size:17px;max-width:530px;line-height:1.52;color:#f0f4f8}
+.hero .actions{margin-top:28px}
+.hero .btn{font-size:15px;padding:17px 24px;border-radius:12px}
+.hero .btn.ghost{background:#07111bd9;border:1px solid #c3d2dc8c}
+.hero .facts{margin-top:28px;display:flex;gap:0;max-width:560px;background:#0b1725d9;backdrop-filter:blur(12px);border:1px solid #78899a78;border-radius:15px;padding:17px 15px;box-shadow:0 14px 28px #0004}
+.hero .facts>div{flex:1;padding:0 12px}
+.hero .facts strong{font-size:27px;color:white}
+.hero .facts small{font-size:12px;line-height:1.25;display:block}
+.hero .wrap>div:first-child>p:last-child{font-size:10px;color:#c3ced9}
+#services{padding-top:90px}
+@media(min-width:1650px){.hero:before{background-position:center 68%}}
+@media(max-width:1100px){.hero:after{background:linear-gradient(90deg,#070d16f7 0%,#070d16e8 42%,#070d1655 80%),linear-gradient(0deg,#0b1119,transparent 20%)}.hero .wrap>div:first-child{width:60%}}
+@media(max-width:760px){body .nav .wrap{min-height:70px}body .nav .logo{font-size:20px}body .nav .logo b{font-size:29px}body .nav .btn{font-size:12px;padding:11px 14px}.hero{min-height:650px}.hero:before{background-size:auto 100%;background-position:65% center;filter:saturate(1.15) contrast(1.06)}.hero:after{background:linear-gradient(90deg,#070d16ef,#070d16b8 72%,#070d1688),linear-gradient(0deg,#0b1119,transparent 25%)}.hero .wrap{min-height:650px;padding-top:55px;padding-bottom:65px}.hero .wrap>div:first-child{width:100%}.hero h1{font-size:clamp(38px,9vw,56px)}.hero p{font-size:15px}.hero .facts{gap:0;padding:14px 8px}.hero .facts>div{padding:0 7px}.hero .facts strong{font-size:22px}.hero .facts small{font-size:10px}}
 </style></head><body><div id="gt-ambient" aria-hidden="true" hidden><div id="gt-ambient-trail"></div><div id="gt-ambient-car"><img src="./top.webp" alt="" decoding="async"></div></div>
 <div class="demo">ДЕМОНСТРАЦИОННЫЙ ПРОТОТИП • Адрес, телефон, цены и запись будут подключены после согласования с владельцем</div>
 <div class="topbar"><div class="wrap"><span>Набережные Челны • Автосервис «5 Колес»</span><span>Контакты и часы работы уточняются</span></div></div>
-<header class="nav"><div class="wrap"><a class="logo" href="#home"><b>5</b> КОЛЕС<small>АВТОСЕРВИС</small></a><nav class="links"><a href="#services">Услуги</a><a href="#advantages">Почему мы</a><a href="#process">Как работаем</a><a href="#contact">Контакты</a></nav><a class="btn" href="#booking">Записаться →</a></div></header>
-<main><section class="hero" id="home"><div class="wrap"><div><div class="eyebrow">Ремонт и обслуживание автомобилей</div><h1>Надёжный сервис.<br><em>Уверенность на дороге.</em></h1><p>Автосервис «5 Колес» в Набережных Челнах. Профессиональный подход к обслуживанию, понятный процесс ремонта и внимание к каждому автомобилю.</p><div class="actions"><a class="btn" href="#booking">Записаться на сервис ↗</a><a class="btn ghost" href="#services">Наши услуги ↓</a></div><div class="facts"><div><strong>3</strong><small>подъёмника в помещении</small></div><div><strong>6 лет</strong><small>истории сервиса*</small></div><div><strong>01</strong><small>понятная точка обращения</small></div></div><p style="font-size:11px;margin-top:14px;color:#8da0b0">*По предварительной информации; уточняется перед публикацией.</p></div><div class="hero-visual"><div class="orbit"></div><img src="./front_three_quarter.webp" alt="Оранжево-чёрный гоночный автомобиль 5 Колес, вид спереди под углом" onerror="this.style.display='none'"><div class="floatlabel"><b>5 КОЛЕС</b>Сервис, который развивается</div></div></div></section><section class="section" id="services"><div class="wrap"><span class="eyebrow">Что мы делаем</span><h2>Услуги автосервиса</h2><p class="lead">Ниже — пример структуры услуг. Конкретный перечень и стоимость подтвердим с владельцем до запуска сайта.</p><div class="service-grid">
+<header class="nav"><div class="wrap"><a class="logo" href="#home"><b>5</b> КОЛЕС<small>АВТОСЕРВИС</small></a><nav class="links"><a href="#services">Услуги</a><a href="#services">Цены</a><a href="#advantages">О нас</a><a href="#process">Как работаем</a><a href="#contact">Контакты</a></nav><a class="btn" href="#booking">Записаться →</a></div></header>
+<main><section class="hero" id="home"><div class="wrap"><div><div class="eyebrow">Ремонт и обслуживание автомобилей</div><h1>Надёжный сервис.<br><em>Уверенность на<br> дороге.</em></h1><p>Автосервис «5 Колес» в Набережных Челнах. Профессиональный подход к обслуживанию, понятный процесс ремонта и внимание к каждому автомобилю.</p><div class="actions"><a class="btn" href="#booking">Записаться на сервис ↗</a><a class="btn ghost" href="#services">▶ &nbsp; Наши услуги</a></div><div class="facts"><div><strong>3</strong><small>подъёмника в помещении</small></div><div><strong>6 лет</strong><small>истории сервиса*</small></div><div><strong>01</strong><small>понятная точка обращения</small></div></div><p style="font-size:11px;margin-top:14px;color:#8da0b0">*По предварительной информации; уточняется перед публикацией.</p></div></div></section><section class="section" id="services"><div class="wrap"><span class="eyebrow">Что мы делаем</span><h2>Услуги автосервиса</h2><p class="lead">Ниже — пример структуры услуг. Конкретный перечень и стоимость подтвердим с владельцем до запуска сайта.</p><div class="service-grid">
 <article class="service"><div class="symbol">⚙</div><h3>Диагностика</h3><p>Поиск неисправностей, проверка состояния узлов и систем автомобиля.</p><a href="#booking" data-service="Диагностика">Оставить заявку ↗</a></article>
 <article class="service"><div class="symbol">🔧</div><h3>Ремонт ходовой</h3><p>Проверка подвески, устранение стуков и восстановление управляемости.</p><a href="#booking" data-service="Ремонт ходовой">Оставить заявку ↗</a></article>
 <article class="service"><div class="symbol">◉</div><h3>Тормозная система</h3><p>Диагностика и обслуживание элементов тормозной системы.</p><a href="#booking" data-service="Тормозная система">Оставить заявку ↗</a></article>
